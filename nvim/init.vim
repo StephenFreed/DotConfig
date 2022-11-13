@@ -239,13 +239,12 @@ nnoremap <leader>gj :diffget //3<CR>
 " 'nvim-lua/popup.nvim'
 " 'lewis6991/gitsigns.nvim' " gitsigns
 " 'tpope/vim-fugitive' " git fugative
+" 'nvim-telescope/telescope.nvim'
+" 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " syntax highlighting
 "
 "
 " installed to here
 "
-"Plug 'nvim-telescope/telescope.nvim'
-"Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " syntax highlighting
 "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  } " markdown preview
 
 " completion
@@ -356,17 +355,16 @@ nvim_tree.setup {
     },
 
     view = {
-    adaptive_size = false,
-    centralize_selection = false,
-    width = 43,
-    height = 30,
-    hide_root_folder = false,
-    side = "left",
-    preserve_window_proportions = false,
-    number = false,
-    relativenumber = false,
-    signcolumn = "yes",
-    -- @deprecated
+        adaptive_size = false,
+        centralize_selection = false,
+        width = 43,
+        hide_root_folder = false,
+        side = "left",
+        preserve_window_proportions = false,
+        number = false,
+        relativenumber = false,
+        signcolumn = "yes",
+        -- @deprecated
     mappings = {
       custom_only = false,
       list = {
@@ -674,13 +672,13 @@ EOF
 " Indent-Blankline "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " let g:indent_blankline_char = '┆'
-let g:indent_blankline_filetype_exclude = 'startify'
+let g:indent_blankline_filetype_exclude = ['startify']
 lua << EOF
 --vim.opt.list = true
 require("indent_blankline").setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = false,
+     --for example, context is off by default, use this to turn it on
+     show_current_context = true,
+     show_current_context_start = false,
 }
 EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -847,156 +845,156 @@ EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CMP "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
-  return
-end
-
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
-  return
-end
-
-require("luasnip/loaders/from_vscode").lazy_load()
-
--- helps super tab functionality for snippets
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
--- -- sets spelling for spelling suggestions
--- vim.opt.spell = true
--- vim.opt.spelllang = { 'en_us' }
-
---   פּ ﯟ   some other good icons
-local kind_icons = {
-  Text = "",
-  Method = "m",
-  Function = "",
-  Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "",
-  Interface = "",
-  Module = "",
-  Property = "",
-  Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "",
-  Snippet = "",
-  Spell = "S",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = "",
-}
--- find more here: https://www.nerdfonts.com/cheat-sheet
-
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body) -- For `luasnip` users.
-    end,
-  },
-  mapping = {
-    ["<C-K>"] = cmp.mapping.select_prev_item(),
-	["<C-J>"] = cmp.mapping.select_next_item(),
-    ["<C-B>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-    ["<C-F>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-    ["<C-Y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ["<C-E>"] = cmp.mapping {
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    },
-    -- Accept currently selected item. If none selected, `select` first item.
-    -- Set `select` to `false` to only confirm explicitly selected items.
-    ["<CR>"] = cmp.mapping.confirm { select = true },
-    -- super tab for snippets
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expandable() then
-        luasnip.expand()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif check_backspace() then
-        fallback()
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-  },
-  formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item)
-      -- Kind icons
-      vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-      -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-      vim_item.menu = ({
-        nvim_lsp = "LSP",
-        nvim_lua = "Nvim Lua",
-        luasnip = "Snippet",
-        buffer = "Buffer",
-        spell = "Spell",
-        path = "Path",
-      })[entry.source.name]
-      return vim_item
-    end,
-  },
-  sources = {
-    { name = "nvim_lsp" },
-    { name = "nvim_lua" },
-    { name = "luasnip", },
-    { name = "buffer", },
-    { name = "spell", },
-    { name = "path", keyword_length = 1 },
-  },
-  confirm_opts = {
-    behavior = cmp.ConfirmBehavior.Replace,
-    select = false,
-  },
-  window.documentation = {
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-  },
-  experimental = {
-    ghost_text = false,
-    native_menu = false,
-  },
-}
-EOF
+" lua << EOF
+" local cmp_status_ok, cmp = pcall(require, "cmp")
+" if not cmp_status_ok then
+"   return
+" end
+"
+" local snip_status_ok, luasnip = pcall(require, "luasnip")
+" if not snip_status_ok then
+"   return
+" end
+"
+" require("luasnip/loaders/from_vscode").lazy_load()
+"
+" -- helps super tab functionality for snippets
+" local check_backspace = function()
+"   local col = vim.fn.col "." - 1
+"   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+" end
+"
+" -- -- sets spelling for spelling suggestions
+" -- vim.opt.spell = true
+" -- vim.opt.spelllang = { 'en_us' }
+"
+" --   פּ ﯟ   some other good icons
+" local kind_icons = {
+"   Text = "",
+"   Method = "m",
+"   Function = "",
+"   Constructor = "",
+"   Field = "",
+"   Variable = "",
+"   Class = "",
+"   Interface = "",
+"   Module = "",
+"   Property = "",
+"   Unit = "",
+"   Value = "",
+"   Enum = "",
+"   Keyword = "",
+"   Snippet = "",
+"   Spell = "S",
+"   Color = "",
+"   File = "",
+"   Reference = "",
+"   Folder = "",
+"   EnumMember = "",
+"   Constant = "",
+"   Struct = "",
+"   Event = "",
+"   Operator = "",
+"   TypeParameter = "",
+" }
+" -- find more here: https://www.nerdfonts.com/cheat-sheet
+"
+" cmp.setup {
+"   snippet = {
+"     expand = function(args)
+"       luasnip.lsp_expand(args.body) -- For `luasnip` users.
+"     end,
+"   },
+"   mapping = {
+"     ["<C-K>"] = cmp.mapping.select_prev_item(),
+" 	["<C-J>"] = cmp.mapping.select_next_item(),
+"     ["<C-B>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+"     ["<C-F>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+"     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+"     ["<C-Y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+"     ["<C-E>"] = cmp.mapping {
+"       i = cmp.mapping.abort(),
+"       c = cmp.mapping.close(),
+"     },
+"     -- Accept currently selected item. If none selected, `select` first item.
+"     -- Set `select` to `false` to only confirm explicitly selected items.
+"     ["<CR>"] = cmp.mapping.confirm { select = true },
+"     -- super tab for snippets
+"     ["<Tab>"] = cmp.mapping(function(fallback)
+"       if cmp.visible() then
+"         cmp.select_next_item()
+"       elseif luasnip.expandable() then
+"         luasnip.expand()
+"       elseif luasnip.expand_or_jumpable() then
+"         luasnip.expand_or_jump()
+"       elseif check_backspace() then
+"         fallback()
+"       else
+"         fallback()
+"       end
+"     end, {
+"       "i",
+"       "s",
+"     }),
+"     ["<S-Tab>"] = cmp.mapping(function(fallback)
+"       if cmp.visible() then
+"         cmp.select_prev_item()
+"       elseif luasnip.jumpable(-1) then
+"         luasnip.jump(-1)
+"       else
+"         fallback()
+"       end
+"     end, {
+"       "i",
+"       "s",
+"     }),
+"   },
+"   formatting = {
+"     fields = { "kind", "abbr", "menu" },
+"     format = function(entry, vim_item)
+"       -- Kind icons
+"       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+"       -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+"       vim_item.menu = ({
+"         nvim_lsp = "LSP",
+"         nvim_lua = "Nvim Lua",
+"         luasnip = "Snippet",
+"         buffer = "Buffer",
+"         spell = "Spell",
+"         path = "Path",
+"       })[entry.source.name]
+"       return vim_item
+"     end,
+"   },
+"   sources = {
+"     { name = "nvim_lsp" },
+"     { name = "nvim_lua" },
+"     { name = "luasnip", },
+"     { name = "buffer", },
+"     { name = "spell", },
+"     { name = "path", keyword_length = 1 },
+"   },
+"   confirm_opts = {
+"     behavior = cmp.ConfirmBehavior.Replace,
+"     select = false,
+"   },
+"   window.documentation = {
+"     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+"   },
+"   experimental = {
+"     ghost_text = false,
+"     native_menu = false,
+"   },
+" }
+" EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LSP "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
-require "lsp.lsp-installer"
-require("lsp.handlers").setup()
-require "lsp.null-ls"
-EOF
+" lua << EOF
+" require "lsp.lsp-installer"
+" require("lsp.handlers").setup()
+" require "lsp.null-ls"
+" EOF
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Run Files "

@@ -55,3 +55,9 @@
 [submodule "nvim/pack/ide/start/vim-fugitive"]
 	path = nvim/pack/ide/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "nvim/pack/ide/start/telescope.nvim"]
+	path = nvim/pack/ide/start/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "nvim/pack/ide/start/nvim-treesitter"]
+	path = nvim/pack/ide/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
