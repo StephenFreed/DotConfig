@@ -1,0 +1,57 @@
+[submodule "nvim/pack/themes/start/vim-code-dark"]
+	path = nvim/pack/themes/start/vim-code-dark
+	url = https://github.com/tomasiser/vim-code-dark.git
+[submodule "nvim/pack/themes/start/gruvbox"]
+	path = nvim/pack/themes/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule "nvim/pack/themes/start/onedark.vim"]
+	path = nvim/pack/themes/start/onedark.vim
+	url = https://github.com/joshdick/onedark.vim.git
+[submodule "nvim/pack/layout/start/vim-startify"]
+	path = nvim/pack/layout/start/vim-startify
+	url = https://github.com/mhinz/vim-startify.git
+[submodule "nvim/pack/layout/start/nvim-tree.lua"]
+	path = nvim/pack/layout/start/nvim-tree.lua
+	url = https://github.com/nvim-tree/nvim-tree.lua.git
+[submodule "nvim/pack/layout/start/nvim-web-devicons"]
+	path = nvim/pack/layout/start/nvim-web-devicons
+	url = https://github.com/nvim-tree/nvim-web-devicons.git
+[submodule "nvim/pack/layout/start/vim-airline"]
+	path = nvim/pack/layout/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "nvim/pack/layout/start/bufferline.nvim"]
+	path = nvim/pack/layout/start/bufferline.nvim
+	url = https://github.com/akinsho/bufferline.nvim.git
+[submodule "nvim/pack/layout/start/vim-bbye"]
+	path = nvim/pack/layout/start/vim-bbye
+	url = https://github.com/moll/vim-bbye.git
+[submodule "nvim/pack/layout/start/toggleterm.nvim"]
+	path = nvim/pack/layout/start/toggleterm.nvim
+	url = https://github.com/akinsho/toggleterm.nvim.git
+[submodule "nvim/pack/layout/start/vim-maximizer"]
+	path = nvim/pack/layout/start/vim-maximizer
+	url = https://github.com/szw/vim-maximizer.git
+[submodule "nvim/pack/layout/start/indent-blankline.nvim"]
+	path = nvim/pack/layout/start/indent-blankline.nvim
+	url = https://github.com/lukas-reineke/indent-blankline.nvim.git
+[submodule "nvim/pack/layout/start/marks.nvim"]
+	path = nvim/pack/layout/start/marks.nvim
+	url = https://github.com/chentoast/marks.nvim.git
+[submodule "nvim/pack/layout/start/auto-pairs"]
+	path = nvim/pack/layout/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "nvim/pack/layout/start/Comment.nvim"]
+	path = nvim/pack/layout/start/Comment.nvim
+	url = https://github.com/numToStr/Comment.nvim.git
+[submodule "nvim/pack/ide/start/plenary.nvim"]
+	path = nvim/pack/ide/start/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "nvim/pack/ide/start/popup.nvim"]
+	path = nvim/pack/ide/start/popup.nvim
+	url = https://github.com/nvim-lua/popup.nvim.git
+[submodule "nvim/pack/ide/start/gitsigns.nvim"]
+	path = nvim/pack/ide/start/gitsigns.nvim
+	url = https://github.com/lewis6991/gitsigns.nvim.git
+[submodule "nvim/pack/ide/start/vim-fugitive"]
+	path = nvim/pack/ide/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
