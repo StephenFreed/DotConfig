@@ -214,6 +214,7 @@ nnoremap <leader>gj :diffget //3<CR>
 " Pluggins "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " installed and managed through git submodules
+" helptags ~/.config/nvim/pack/<directory>/start/<directory>/doc
 
 " themes 
 " 'tomasiser/vim-code-dark'
@@ -241,31 +242,28 @@ nnoremap <leader>gj :diffget //3<CR>
 " 'tpope/vim-fugitive' " git fugative
 " 'nvim-telescope/telescope.nvim'
 " 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " syntax highlighting
-"
-"
-" installed to here
-"
-"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  } " markdown preview
+" NOT INSTALLED 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  } " markdown preview
 
 " completion
-"Plug 'hrsh7th/nvim-cmp'
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-path'
-"Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/cmp-nvim-lsp' " lsp completion
-"Plug 'hrsh7th/cmp-nvim-lua' " lua completion
-""Plug 'saadparwaiz1/cmp_luasnip' " snippit completion
-"Plug 'f3fora/cmp-spell' " spell completion
+" 'hrsh7h/nvim-cmp' " completion engine
+" 'hrsh7th/cmp-buffer' " complete from buffer 
+" 'hrsh7th/cmp-path' " complete file path 
+" 'hrsh7th/cmp-cmdline' " complete in vim command line
+" 'hrsh7th/cmp-nvim-lsp' " lsp completion
+" 'hrsh7th/cmp-nvim-lua' " lua nvim api completion
+" 'saadparwaiz1/cmp_luasnip' " snippit completion
+" 'L3MON4D3/LuaSnip' " snippit engine
+" 'rafamadriz/friendly-snippets' " snippit collection
 
-" snippets
-"Plug 'L3MON4D3/LuaSnip'
-"Plug 'rafamadriz/friendly-snippets'
-"Plug 'jose-elias-alvarez/null-ls.nvim'
+
+" installed to here
+
 
 " lsp
-"Plug 'neovim/nvim-lspconfig' " enable lsp
-"Plug 'williamboman/nvim-lsp-installer' " simple to use language server installer
-"Plug 'tamago324/nlsp-settings.nvim'
+" 'nvim-lspconfig' " enable lsp config
+" 'mason.nvim' lsp package manager
+" 'mason-lspconfig.nvim' use lspconfig with mason.nvim
+" 'null-ls.nvim' use nvim language srever to inject lsp diagnostics, code actions, and more via lua
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colorscheme "
@@ -831,13 +829,13 @@ require('telescope').setup{
     --   extension_config_key = value,
     -- }
     -- please take a look at the readme of the extension you want to configure
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = true,  -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+    --fzf = {
+    --  fuzzy = true,                    -- false will only do exact matching
+    --  override_generic_sorter = true,  -- override the generic sorter
+    --  override_file_sorter = true,     -- override the file sorter
+    --  case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
                                        -- the default case_mode is "smart_case"
-    },
+    -- },
 
   }
 }
@@ -845,156 +843,204 @@ EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CMP "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" lua << EOF
-" local cmp_status_ok, cmp = pcall(require, "cmp")
-" if not cmp_status_ok then
-"   return
-" end
-"
-" local snip_status_ok, luasnip = pcall(require, "luasnip")
-" if not snip_status_ok then
-"   return
-" end
-"
-" require("luasnip/loaders/from_vscode").lazy_load()
-"
-" -- helps super tab functionality for snippets
-" local check_backspace = function()
-"   local col = vim.fn.col "." - 1
-"   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-" end
-"
-" -- -- sets spelling for spelling suggestions
-" -- vim.opt.spell = true
-" -- vim.opt.spelllang = { 'en_us' }
-"
-" --   פּ ﯟ   some other good icons
-" local kind_icons = {
-"   Text = "",
-"   Method = "m",
-"   Function = "",
-"   Constructor = "",
-"   Field = "",
-"   Variable = "",
-"   Class = "",
-"   Interface = "",
-"   Module = "",
-"   Property = "",
-"   Unit = "",
-"   Value = "",
-"   Enum = "",
-"   Keyword = "",
-"   Snippet = "",
-"   Spell = "S",
-"   Color = "",
-"   File = "",
-"   Reference = "",
-"   Folder = "",
-"   EnumMember = "",
-"   Constant = "",
-"   Struct = "",
-"   Event = "",
-"   Operator = "",
-"   TypeParameter = "",
-" }
-" -- find more here: https://www.nerdfonts.com/cheat-sheet
-"
-" cmp.setup {
-"   snippet = {
-"     expand = function(args)
-"       luasnip.lsp_expand(args.body) -- For `luasnip` users.
-"     end,
-"   },
-"   mapping = {
-"     ["<C-K>"] = cmp.mapping.select_prev_item(),
-" 	["<C-J>"] = cmp.mapping.select_next_item(),
-"     ["<C-B>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
-"     ["<C-F>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
-"     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-"     ["<C-Y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-"     ["<C-E>"] = cmp.mapping {
-"       i = cmp.mapping.abort(),
-"       c = cmp.mapping.close(),
-"     },
-"     -- Accept currently selected item. If none selected, `select` first item.
-"     -- Set `select` to `false` to only confirm explicitly selected items.
-"     ["<CR>"] = cmp.mapping.confirm { select = true },
-"     -- super tab for snippets
-"     ["<Tab>"] = cmp.mapping(function(fallback)
-"       if cmp.visible() then
-"         cmp.select_next_item()
-"       elseif luasnip.expandable() then
-"         luasnip.expand()
-"       elseif luasnip.expand_or_jumpable() then
-"         luasnip.expand_or_jump()
-"       elseif check_backspace() then
-"         fallback()
-"       else
-"         fallback()
-"       end
-"     end, {
-"       "i",
-"       "s",
-"     }),
-"     ["<S-Tab>"] = cmp.mapping(function(fallback)
-"       if cmp.visible() then
-"         cmp.select_prev_item()
-"       elseif luasnip.jumpable(-1) then
-"         luasnip.jump(-1)
-"       else
-"         fallback()
-"       end
-"     end, {
-"       "i",
-"       "s",
-"     }),
-"   },
-"   formatting = {
-"     fields = { "kind", "abbr", "menu" },
-"     format = function(entry, vim_item)
-"       -- Kind icons
-"       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-"       -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-"       vim_item.menu = ({
-"         nvim_lsp = "LSP",
-"         nvim_lua = "Nvim Lua",
-"         luasnip = "Snippet",
-"         buffer = "Buffer",
-"         spell = "Spell",
-"         path = "Path",
-"       })[entry.source.name]
-"       return vim_item
-"     end,
-"   },
-"   sources = {
-"     { name = "nvim_lsp" },
-"     { name = "nvim_lua" },
-"     { name = "luasnip", },
-"     { name = "buffer", },
-"     { name = "spell", },
-"     { name = "path", keyword_length = 1 },
-"   },
-"   confirm_opts = {
-"     behavior = cmp.ConfirmBehavior.Replace,
-"     select = false,
-"   },
-"   window.documentation = {
-"     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-"   },
-"   experimental = {
-"     ghost_text = false,
-"     native_menu = false,
-"   },
-" }
-" EOF
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set completeopt=menu,menuone,noselect
+lua <<EOF
+
+  -- helps super tab functionality for snippets
+--  local check_backspace = function()
+--    local col = vim.fn.col "." - 1
+--    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+--  end
+
+local cmp = require'cmp'
+require("luasnip.loaders.from_vscode").lazy_load()
+cmp.setup({
+
+  window = {
+     completion = cmp.config.window.bordered(),
+     documentation = cmp.config.window.bordered(),
+  },
+
+  experimental = {
+    ghost_text = true,
+  },
+
+  confirm_opts = {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+  },
+
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+
+  sources = cmp.config.sources {
+    { name = "nvim_lsp", keyword_length = 1},
+    { name = "nvim_lua", keyword_length = 1},
+    { name = "luasnip", keyword_length = 1},
+    { name = "buffer", keyword_length = 1},
+    { name = "path", keyword_length = 1 },
+  },
+
+  formatting = {
+    fields = { "abbr", "menu", "kind" },
+    format = function(entry, item)
+      local menu_icon = {
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[Nvim Lua]",
+        luasnip = "[Snippet]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+      }
+      item.menu = menu_icon[entry.source.name]
+      return item
+    end
+  },
+  
+
+  mapping = cmp.mapping.preset.insert({
+    ["<C-k>"] = cmp.mapping.select_prev_item(),
+    ["<C-j>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+    ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+    ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ["<C-e>"] = cmp.mapping {
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    },
+    -- Accept currently selected item. If none selected, `select` first item.
+    -- Set `select` to `false` to only confirm explicitly selected items.
+    ["<CR>"] = cmp.mapping.confirm { select = true },
+     
+  }),
+})
+
+-- No sources for seach '/' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    --{ name = 'buffer' }
+  }
+})
+
+-- Use path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'path' }
+  }
+})
+
+
+EOF
+" stops auto complete in vim command line
+" autocmd CmdWinEnter * lua require('cmp').setup({enabled = false})
+" autocmd CmdWinLeave * lua require('cmp').setup({enabled = true})
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LSP "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" lua << EOF
-" require "lsp.lsp-installer"
-" require("lsp.handlers").setup()
-" require "lsp.null-ls"
-" EOF
+lua << EOF
+-- require("lsp.handlers").setup()
+--require "lsp.null-ls"
+
+-- import mason plugin safely
+
+require("mason").setup()
+require("mason-lspconfig").setup()
+
+-- After setting up mason-lspconfig you may set up servers via lspconfig
+-- require("lspconfig").sumneko_lua.setup {}
+-- require("lspconfig").rust_analyzer.setup {}
+-- ...
+
+-- Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+end
+
+local lsp_flags = {
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
+}
+require('lspconfig')['pyright'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require('lspconfig')['tsserver'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require('lspconfig')['rust_analyzer'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    -- Server-specific settings...
+    settings = {
+      ["rust-analyzer"] = {}
+    }
+}
+
+
+
+-- NULL LS
+local null_ls_status_ok, null_ls = pcall(require, "null-ls")
+if not null_ls_status_ok then
+	return
+end
+
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+local formatting = null_ls.builtins.formatting
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
+local diagnostics = null_ls.builtins.diagnostics
+
+null_ls.setup({
+	debug = false,
+	sources = {
+		formatting.prettier.with({ extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } }),
+		formatting.black.with({ extra_args = { "--fast" } }),
+		formatting.stylua,
+        diagnostics.flake8
+	},
+})
+
+
+
+EOF
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Run Files "

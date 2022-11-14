@@ -61,3 +61,42 @@
 [submodule "nvim/pack/ide/start/nvim-treesitter"]
 	path = nvim/pack/ide/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule "nvim/pack/completion/start/nvim-cmp"]
+	path = nvim/pack/completion/start/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp.git
+[submodule "nvim/pack/completion/start/cmp-buffer"]
+	path = nvim/pack/completion/start/cmp-buffer
+	url = https://github.com/hrsh7th/cmp-buffer.git
+[submodule "nvim/pack/completion/start/cmp-path"]
+	path = nvim/pack/completion/start/cmp-path
+	url = https://github.com/hrsh7th/cmp-path.git
+[submodule "nvim/pack/completion/start/cmp-cmdline"]
+	path = nvim/pack/completion/start/cmp-cmdline
+	url = https://github.com/hrsh7th/cmp-cmdline.git
+[submodule "nvim/pack/completion/start/cmp-nvim-lsp"]
+	path = nvim/pack/completion/start/cmp-nvim-lsp
+	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
+[submodule "nvim/pack/completion/start/cmp-nvim-lua"]
+	path = nvim/pack/completion/start/cmp-nvim-lua
+	url = https://github.com/hrsh7th/cmp-nvim-lua.git
+[submodule "nvim/pack/completion/start/cmp_luasnip"]
+	path = nvim/pack/completion/start/cmp_luasnip
+	url = https://github.com/saadparwaiz1/cmp_luasnip.git
+[submodule "nvim/pack/completion/start/LuaSnip"]
+	path = nvim/pack/completion/start/LuaSnip
+	url = https://github.com/L3MON4D3/LuaSnip.git
+[submodule "nvim/pack/completion/start/friendly-snippets"]
+	path = nvim/pack/completion/start/friendly-snippets
+	url = https://github.com/rafamadriz/friendly-snippets.git
+[submodule "nvim/pack/lsp/start/nvim-lspconfig"]
+	path = nvim/pack/lsp/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "nvim/pack/lsp/start/mason.nvim"]
+	path = nvim/pack/lsp/start/mason.nvim
+	url = https://github.com/williamboman/mason.nvim.git
+[submodule "nvim/pack/lsp/start/mason-lspconfig.nvim"]
+	path = nvim/pack/lsp/start/mason-lspconfig.nvim
+	url = https://github.com/williamboman/mason-lspconfig.nvim.git
+[submodule "nvim/pack/lsp/start/null-ls.nvim"]
+	path = nvim/pack/lsp/start/null-ls.nvim
+	url = https://github.com/jose-elias-alvarez/null-ls.nvim.git
