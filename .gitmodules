@@ -100,3 +100,6 @@
 [submodule "nvim/pack/lsp/start/null-ls.nvim"]
 	path = nvim/pack/lsp/start/null-ls.nvim
 	url = https://github.com/jose-elias-alvarez/null-ls.nvim.git
+[submodule "nvim/pack/completion/start/lsp-zero.nvim"]
+	path = nvim/pack/completion/start/lsp-zero.nvim
+	url = https://github.com/VonHeikemen/lsp-zero.nvim.git

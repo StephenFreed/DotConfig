@@ -44,9 +44,9 @@ set cindent
 set cino=
 " set cinoptions=i0,+0
 set expandtab
-set tabstop=2 
+set tabstop=4 
 set softtabstop=0
-set shiftwidth=2
+set shiftwidth=4
 " set relativenumber
 set noerrorbells
 set nu
@@ -115,6 +115,10 @@ autocmd VimEnter * nnoremap <leader>O O<Esc>
 autocmd VimEnter * nnoremap <leader>o o<Esc>
 autocmd VimEnter * nnoremap <leader>sb i<space><Esc>
 autocmd VimEnter * nnoremap <leader>sa a<space><Esc>
+
+" searching
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
 
 " moving lines
 vnoremap J :m '>+1<CR>gv=gv
@@ -210,6 +214,18 @@ nnoremap <leader>gj :diffget //3<CR>
 " commands
 " @q
 " @@
+"
+" * search word under cursor /
+" # search word under cursor ?
+
+" :s/foo/bar  # first occurrence
+" :s/foo/bar/g  # line only every occurrence
+" :%s/foo/bar/g  # file
+" :%s/foo/bar/gc  # confirmation
+" :%s/\<foo\>/bar/gc  # exact match whole words
+
+" pip install static-markdown | serve-md -h
+ 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pluggins "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -253,13 +269,14 @@ nnoremap <leader>gj :diffget //3<CR>
 " 'hrsh7th/cmp-nvim-lua' " lua nvim api completion
 " 'saadparwaiz1/cmp_luasnip' " snippit completion
 " 'L3MON4D3/LuaSnip' " snippit engine
-" 'rafamadriz/friendly-snippets' " snippit collection
+" 'rafamadriz/friendly-snippets' " snippit collection(vscode)
 
 " lsp
 " 'nvim-lspconfig' " enable lsp config
-" 'mason.nvim' lsp package manager
-" 'mason-lspconfig.nvim' use lspconfig with mason.nvim
-" 'null-ls.nvim' use nvim language srever to inject lsp diagnostics, code actions, and more via lua
+" 'mason.nvim' " lsp package manager
+" 'mason-lspconfig.nvim' " use lspconfig with mason.nvim
+" 'null-ls.nvim' " use nvim language server to inject lsp diagnostics, code actions, and more via lua
+" 'vonheikemen/lsp-zero.nvim' " lsp config automation
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colorscheme "
@@ -842,14 +859,10 @@ EOF
 set completeopt=menu,menuone,noselect
 lua <<EOF
 
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 local cmp = require'cmp'
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
+--load custom snippets here
 
 cmp.setup({
 
@@ -907,32 +920,9 @@ cmp.setup({
       c = cmp.mapping.close(),
     },
     ["<CR>"] = cmp.mapping.confirm { select = true },
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-
   }),
 
 })
-
 
 -- No sources for seach '/' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
@@ -952,6 +942,10 @@ cmp.setup.cmdline(':', {
 
 EOF
 
+" tabs for snippets
+nnoremap <TAB> <cmd>lua require('luasnip').jump(1)<Cr>
+nnoremap <S-TAB> <cmd>lua require('luasnip').jump(-1)<Cr>
+
 " stops auto complete in vim command line
 " autocmd CmdWinEnter * lua require('cmp').setup({enabled = false})
 " autocmd CmdWinLeave * lua require('cmp').setup({enabled = true})
@@ -959,10 +953,12 @@ EOF
 " LSP "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 lua << EOF
-require "lsp.lsp-installer"
-require("lsp.handlers").setup()
-require "lsp.null-ls"
+-- LSP Zero
+local lsp = require('lsp-zero')
+lsp.preset('recommended')
+lsp.setup()
 EOF
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Run Files "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -995,7 +991,7 @@ augroup exe_code
 
     " compile c++ code
     autocmd FileType cpp nnoremap <buffer> <localleader>p
-            \ :10sp<CR> :terminal clang++ -std=c++11 % -o '%:r_runnable'<CR> :startinsert<CR>
+            \ :10sp<CR> :terminal clang++ -std=c++17 % -o '%:r_runnable'<CR> :startinsert<CR>
 
     " execute c++ code
     autocmd FileType cpp nnoremap <buffer> <localleader>r
