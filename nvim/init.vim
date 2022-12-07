@@ -956,7 +956,37 @@ lua << EOF
 -- LSP Zero
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
+
+lsp.set_preferences({
+  set_lsp_keymaps = false
+})
+
+lsp.on_attach(function(client, bufnr)
+  local noremap = {buffer = bufnr, remap = false}
+  local bind = vim.keymap.set
+
+   -- LSP actions
+  bind('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  bind('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  bind('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  bind('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+  bind('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  bind('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  bind('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  bind('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  bind('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  bind('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
+
+  -- Diagnostics
+  bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  bind('n', 'GN', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+  bind('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+
+end)
+
 lsp.setup()
+
+
 EOF
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
