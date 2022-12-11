@@ -7,6 +7,7 @@ CHANGES=$(($(echo $STATUS | grep " M" | wc -l | xargs) + $(echo $STATUS | grep "
 
 if [[ $CHANGES > 0 ]]
 then
+    git add .
     git add -A
     git commit -m "$(date): Auto Git Push From Laptop"
     git push
