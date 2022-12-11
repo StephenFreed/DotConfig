@@ -8,7 +8,7 @@ CHANGES=$(($(echo $STATUS | grep " M" | wc -l | xargs) + $(echo $STATUS | grep "
 if [[ $CHANGES > 0 ]]
 then
     git add .
-    git add -A
+    git add -all
     git commit -m "$(date): Auto Git Push From Laptop"
     git push
     echo "$DATE PUSHED CHANGES" >> ./log_file.txt
