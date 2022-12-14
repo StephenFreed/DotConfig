@@ -230,7 +230,11 @@ nnoremap <leader>gj :diffget //3<CR>
 " Pluggins "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " installed and managed through git submodules
+" :helptags ALL  " generate all helptags for pluggins
 " helptags ~/.config/nvim/pack/<directory>/start/<directory>/doc
+" git submodule update --init --recursive
+" sudo apt install build-essential
+" sudo apt install nodejs npm
 
 " themes 
 " 'tomasiser/vim-code-dark'
