@@ -224,7 +224,7 @@ nnoremap <leader>gj :diffget //3<CR>
 " :%s/foo/bar/gc  # confirmation
 " :%s/\<foo\>/bar/gc  # exact match whole words
 
-" pip install static-markdown | serve-md -h
+" pip install static-markdown | serve-md -h  " show live readme
  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pluggins "
