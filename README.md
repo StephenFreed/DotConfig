@@ -1,15 +1,14 @@
 # .Config Files For Terminal & Neovim Setup
 
-##### Kitty Terminal With Starship Shell Prompt.
-##### Neovim Setup For IDE Like Experience.
+##### Kitty Terminal
+##### Neovim Setup For IDE Like Experience
 - VSCode Style Theme
-- LSP Integration
-- Syntax Highlighting
-- Completion and Snippets
 - File Tree With Git Integration
+- Syntax Highlighting
+- LSP Integration
+- Completion and Snippets
 - Fuzzy Finder
-- Various Remaps To Manipulate Code
-- Custom Remaps To Run Code
+- Various Remaps To Manipulate and Run Code
 
 ![](./images/neovim-pic.png)
 ![](./images/neovim-pic-1.png)
