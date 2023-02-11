@@ -45,6 +45,7 @@ set cino=
 " set cinoptions=i0,+0
 set expandtab
 set tabstop=4 
+autocmd FileType make setlocal noexpandtab " turn off tabstop for makefile
 set softtabstop=0
 set shiftwidth=4
 " set relativenumber
